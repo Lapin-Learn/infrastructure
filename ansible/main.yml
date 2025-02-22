@@ -1,0 +1,5 @@
+- import_playbook: install_nginx_ingress.yaml
+- import_playbook: install_cert_manager.yaml
+- import_playbook: install_monitoring.yaml
+- import_playbook: install_argo_cd.yaml
+- import_playbook: install_metrics_server.yaml

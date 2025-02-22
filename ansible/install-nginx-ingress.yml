@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yaml
+  tasks:
+    - name: Install NGINX Ingress Controller
+      kubernetes.core.k8s:
+        kubeconfig: "{{ kubeconfig }}"
+        state: present
+        definition: "{{ lookup('url', nginx_ingress_url, split_lines=False) }}"

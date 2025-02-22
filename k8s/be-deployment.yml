@@ -1,0 +1,38 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend-deployment
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "duyquan/backend-main-server"
+    argocd-image-updater.argoproj.io/backend-main-server.update-strategy: "semver"
+    argocd-image-updater.argoproj.io/backend-main-server.allow-tags: "production-*"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-deployment
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: main-api
+          image: duyquan/backend-main-server:production-4b6ccb7b6d57e6b77af1240483883b5db1030f72
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 5
