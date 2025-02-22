@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   vars_files:
-    - vars.yaml
+    - vars.yml
   tasks:
     - name: Add Jetstack Helm repository
       kubernetes.core.helm_repository:
@@ -10,7 +10,7 @@
         state: present
 
     - name: Install Cert-Manager
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         kubeconfig: "{{ kubeconfig }}"
         name: cert-manager
         chart_ref: jetstack/cert-manager

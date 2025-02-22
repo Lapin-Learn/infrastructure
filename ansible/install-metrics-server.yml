@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   vars_files:
-    - vars.yaml
+    - vars.yml
   tasks:
     - name: Add Metrics Server Helm repository
       kubernetes.core.helm_repository:
@@ -10,7 +10,7 @@
         state: present
 
     - name: Install Metrics Server for HPA
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         kubeconfig: "{{ kubeconfig }}"
         name: metrics-server
         chart_ref: metrics-server/metrics-server

@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   vars_files:
-    - vars.yaml
+    - vars.yml
   tasks:
     - name: Add Prometheus Helm repository
       kubernetes.core.helm_repository:
@@ -10,7 +10,7 @@
         state: present
 
     - name: Install Prometheus
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         kubeconfig: "{{ kubeconfig }}"
         name: prometheus
         chart_ref: prometheus-community/prometheus
@@ -24,7 +24,7 @@
         state: present
 
     - name: Install Grafana
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         kubeconfig: "{{ kubeconfig }}"
         name: grafana
         chart_ref: grafana/grafana

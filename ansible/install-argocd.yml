@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   vars_files:
-    - vars.yaml
+    - vars.yml
   tasks:
     - name: Add Argo CD Helm repository
       kubernetes.core.helm_repository:
@@ -10,7 +10,7 @@
         state: present
 
     - name: Install Argo CD
-      community.kubernetes.helm:
+      kubernetes.core.helm:
         kubeconfig: "{{ kubeconfig }}"
         name: argo-cd
         chart_ref: argo/argo-cd
