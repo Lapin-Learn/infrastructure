@@ -3,3 +3,4 @@
 - import_playbook: install-monitoring.yml
 - import_playbook: install-argocd.yml
 - import_playbook: install-metrics-server.yml
+- import_playbook: install-postgres.yml
