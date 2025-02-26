@@ -2,8 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: application-ingress
+  namespace: backend
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
@@ -12,11 +12,12 @@ spec:
   tls:
     - hosts:
         - "api.lapinlearn.edu.vn"
+      secretName: api-lapinlearn-tls
   rules:
     - host: "api.lapinlearn.edu.vn"
       http:
         paths:
-          - path: /api
+          - path: "/"
             pathType: Prefix
             backend:
               service:

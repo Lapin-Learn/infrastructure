@@ -1,7 +1,8 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
+  namespace: backend
   labels:
     app: backend-deployment
   annotations:
@@ -12,15 +13,20 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: backend-deployment
+      app: backend
   template:
     metadata:
       labels:
         app: backend
     spec:
+      imagePullSecrets:
+        - name: dockerhub-secret
       containers:
         - name: main-api
-          image: duyquan/backend-main-server:production-4b6ccb7b6d57e6b77af1240483883b5db1030f72
+          image: duyquan/backend-main-server:production-f9a1c4ac74f66088c298cc7e916a914d56511006
+          envFrom:
+            - secretRef:
+                name: backend-secret
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000

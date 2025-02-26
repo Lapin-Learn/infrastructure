@@ -9,9 +9,6 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-      - dns01:
-          cloudflare:
-            email: lapinlearnproject@gmail.com
-            apiTokenSecretRef:
-              name: cloudflare-api-token-secret
-              key: api-token
+      - http01:
+          ingress:
+            class: nginx
