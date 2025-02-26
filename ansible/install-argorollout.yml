@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Create Argo Rollouts namespace
+      kubernetes.core.k8s:
+        kubeconfig: "{{ kubeconfig }}"
+        name: argo-rollouts
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Install Argo Rollouts
+      kubernetes.core.k8s:
+        kubeconfig: "{{ kubeconfig }}"
+        state: present
+        src: "{{ argorollout_source_url }}"
+        namespace: argo-rollouts

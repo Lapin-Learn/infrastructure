@@ -1,16 +1,21 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: backend-deployment
+  name: backend-rollout
   namespace: backend
   labels:
-    app: backend-deployment
+    app: backend-rollout
   annotations:
     argocd-image-updater.argoproj.io/image-list: "duyquan/backend-main-server"
     argocd-image-updater.argoproj.io/backend-main-server.update-strategy: "semver"
     argocd-image-updater.argoproj.io/backend-main-server.allow-tags: "production-*"
 spec:
   replicas: 2
+  strategy:
+    blueGreen:
+      activeService: backend-service-active # Points to the stable version
+      previewService: backend-service-preview # Points to the new version
+      autoPromotionEnabled: false # Requires manual approval before switching
   selector:
     matchLabels:
       app: backend
@@ -24,10 +29,10 @@ spec:
       containers:
         - name: main-api
           image: duyquan/backend-main-server:production-f9a1c4ac74f66088c298cc7e916a914d56511006
+          imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
                 name: backend-secret
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           livenessProbe:
