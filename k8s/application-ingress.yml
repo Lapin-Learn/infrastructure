@@ -24,3 +24,30 @@ spec:
                 name: backend-service-active
                 port:
                   number: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: application-preview
+  namespace: backend
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "preview-api.lapinlearn.edu.vn"
+      secretName: preview-api-lapinlearn-tls
+  rules:
+    - host: "preview-api.lapinlearn.edu.vn"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service-preview
+                port:
+                  number: 3000
