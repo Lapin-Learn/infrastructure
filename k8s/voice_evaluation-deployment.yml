@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: voice-evaluation-rollout
+  namespace: backend
+  labels:
+    app: voice-evaluation-rollout
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "duyquan/voice_evaluation"
+    argocd-image-updater.argoproj.io/backend-main-server.update-strategy: "semver"
+    argocd-image-updater.argoproj.io/backend-main-server.allow-tags: "production-*"
+spec:
+  replicas: 2
+  strategy:
+    blueGreen:
+      activeService: voice-evaluation-service-active # Points to the stable version
+      previewService: voice-evaluation-service-preview # Points to the new version
+      autoPromotionEnabled: false # Requires manual approval before switching
+  selector:
+    matchLabels:
+      app: voice-evaluation
+  template:
+    metadata:
+      labels:
+        app: voice-evaluation
+    spec:
+      containers:
+        - name: voice-evaluation
+          image: duyquan/voice_evaluation:production-76f3949c49db18a4553cf061f1d836e23db2e362
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
