@@ -10,7 +10,7 @@ metadata:
     argocd-image-updater.argoproj.io/backend-main-server.update-strategy: "semver"
     argocd-image-updater.argoproj.io/backend-main-server.allow-tags: "production-*"
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     blueGreen:
       activeService: voice-evaluation-service-active # Points to the stable version
