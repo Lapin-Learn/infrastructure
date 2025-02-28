@@ -30,3 +30,15 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
+          volumeMounts:
+            - name: model-cache-volume
+              mountPath: /root/.cache/torch/hub
+            - name: models-volume
+              mountPath: /models
+      volumes:
+        - name: model-cache-volume
+          persistentVolumeClaim:
+            claimName: model-cache-pvc
+        - name: models-volume
+          persistentVolumeClaim:
+            claimName: models-pvc
