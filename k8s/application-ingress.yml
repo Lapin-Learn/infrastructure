@@ -39,7 +39,7 @@ spec:
   tls:
     - hosts:
         - "preview-api.lapinlearn.edu.vn"
-      secretName: preview-api-lapinlearn-tls
+      secretName: preview-api-lapinlearn-kckjb
   rules:
     - host: "preview-api.lapinlearn.edu.vn"
       http:
