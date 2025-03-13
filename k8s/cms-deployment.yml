@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: directus
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: directus
+  template:
+    metadata:
+      labels:
+        app: directus
+    spec:
+      containers:
+        - name: directus
+          image: directus/directus:11.3.5
+          ports:
+            - containerPort: 8055
+          envFrom:
+            - secretRef:
+                name: cms-secret
+          volumeMounts:
+            - name: uploads-storage
+              mountPath: /directus/uploads
+            - name: extensions-storage
+              mountPath: /directus/extensions
+            - name: db-cert
+              mountPath: /etc/ssl/certs/do-ca.pem
+              subPath: do-ca.pem
+      volumes:
+        - name: uploads-storage
+          persistentVolumeClaim:
+            claimName: directus-uploads-pvc
+        - name: extensions-storage
+          persistentVolumeClaim:
+            claimName: directus-extensions-pvc
+        - name: db-cert
+          configMap:
+            name: directus-db-cert
