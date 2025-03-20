@@ -28,7 +28,7 @@ spec:
         - name: dockerhub-secret
       containers:
         - name: main-api
-          image: duyquan/backend-main-server:production-06c16bb34768558e39cf625ec924210df0e0bb90
+          image: duyquan/backend-main-server:production-b0e12a3846eaf6e45512d9366c4b04d67ef39083
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
