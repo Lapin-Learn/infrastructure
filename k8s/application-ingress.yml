@@ -12,6 +12,7 @@ spec:
   tls:
     - hosts:
         - "api.lapinlearn.edu.vn"
+        - "cms.lapinlearn.edu.vn"
       secretName: api-lapinlearn-tls
   rules:
     - host: "api.lapinlearn.edu.vn"
@@ -24,55 +25,10 @@ spec:
                 name: backend-service-active
                 port:
                   number: 3000
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: application-preview
-  namespace: backend
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - "preview-api.lapinlearn.edu.vn"
-      secretName: preview-api-lapinlearn-kckjb
-  rules:
-    - host: "preview-api.lapinlearn.edu.vn"
+    - host: "cms.lapinlearn.edu.vn"
       http:
         paths:
           - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-service-preview
-                port:
-                  number: 3000
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: directus-ingress
-  namespace: backend
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    acme.cert-manager.io/http01-edit-in-place: "true"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - cms.lapinlearn.edu.vn
-      secretName: cms-directus-tls
-  rules:
-    - host: cms.lapinlearn.edu.vn
-      http:
-        paths:
-          - path: /
             pathType: Prefix
             backend:
               service:

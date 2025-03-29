@@ -12,6 +12,7 @@
         name: redis
         chart_ref: bitnami/redis
         release_namespace: distributed-cache
+        create_namespace: true
         values:
           architecture: standalone
           auth:

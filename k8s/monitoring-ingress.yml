@@ -10,9 +10,9 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "prometheus.yourdomain.com"
-        - "grafana.yourdomain.com"
-      secretName: monitoring-tls # TLS Secret (if using HTTPS)
+        - "prometheus.lapinlearn.edu.vn"
+        - "grafana.lapinlearn.edu.vn"
+      secretName: api-lapinlearn-tls # TLS Secret (if using HTTPS)
   rules:
     - host: "prometheus.lapinlearn.edu.vn"
       http:

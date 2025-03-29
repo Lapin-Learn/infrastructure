@@ -29,6 +29,13 @@ spec:
             - name: db-cert
               mountPath: /etc/ssl/certs/do-ca.pem
               subPath: do-ca.pem
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
       volumes:
         - name: uploads-storage
           persistentVolumeClaim:
